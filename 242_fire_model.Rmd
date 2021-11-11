@@ -1,0 +1,50 @@
+---
+title: "fire behavior model"
+author: "Kaley Dodson, Alison Sells, Larissa Neilson"
+date: "11/10/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### define variables and compose equation
+
+damage function for each unit i at time t, where G is a growth function (this is what I think we would modify with housing parameter)
+s_it+1 = G(s-x) # post treatment fuel stock
+s_it # fuel stocks
+x_it # amount of fuel removed
+
+assuming fire acts similarly on all variables:
+Di = Di(s_t - x_t) 
+	= sum w_ij(s_jt-x_jt) where weight w_ij represents the contribution of unit j’s posttreatment fuel stock, (s_jt−x_jt), to fire damage on unit i. The bigger the weight assigned to unit j, the more important that unit’s fuel stock in determining fire damage on unit i.
+*** this may be where we adjust impact of houses on damage in next cell ***
+
+after a fire fuels are:
+s_it+1 = G[(s-x)(1-Di)]
+
+
+we want fire to effect fuel stock and houses (i.e. damage to homes?)
+house after fire is some variation of hi,t+1 = hit(1−Di)
+
+
+
+
+```{r}
+matrix = matrix(c(0.5, 1, -1, 0, 0, 1, 0.5, 1, 0), ncol = 3) # base values 
+
+# 
+
+
+# pick ten random points from inside box and put them in p
+set.seed(2021)
+p <- st_sample(box, size = 9) # select 9 values
+
+# from here an if else statement to determine fire spread (pull from work code)
+ 
+# maybe map those using plot? (pull from gis code) 
+```
+
+
+
