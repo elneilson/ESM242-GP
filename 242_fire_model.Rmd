@@ -32,14 +32,17 @@ house after fire is some variation of hi,t+1 = hit(1−Di)
 
 
 ```{r}
-matrix = matrix(c(0.5, 1, -1, 0, 0, 1, 0.5, 1, 0), ncol = 3) # base values 
+matrix = matrix(c(0, 1, 1, 0, 0, 1, 1, 1, 0), ncol = 3) # base values 
 
-# 
+set.seed(2021)
+list <- st_sample(box, size = 9) # select 9 values
+
+if 
 
 
 # pick ten random points from inside box and put them in p
 set.seed(2021)
-p <- st_sample(box, size = 9) # select 9 values
+list <- st_sample(box, size = 9) # select 9 values
 
 # from here an if else statement to determine fire spread (pull from work code)
  
