@@ -1,5 +1,5 @@
 ---
-title: "fire behavior model"
+title: "Fire Spread Model"
 author: "Kaley Dodson, Alison Sells, Larissa Neilson"
 date: "11/10/2021"
 output: html_document
@@ -7,47 +7,89 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(sf) # needed for st_sample() function
 ```
 
-### define variables and compose equation
+### Define Variables and Compose Equation
 
-damage function for each unit i at time t, where G is a growth function (this is what I think we would modify with housing parameter)
+Damage function for each unit i at time t, where G is a growth function (this is what I think we would modify with housing parameter)
 s_it+1 = G(s-x) # post treatment fuel stock
 s_it # fuel stocks
 x_it # amount of fuel removed
 
-assuming fire acts similarly on all variables:
+Assuming fire acts similarly on all variables:
 Di = Di(s_t - x_t) 
-	= sum w_ij(s_jt-x_jt) where weight w_ij represents the contribution of unit j’s posttreatment fuel stock, (s_jt−x_jt), to fire damage on unit i. The bigger the weight assigned to unit j, the more important that unit’s fuel stock in determining fire damage on unit i.
-*** this may be where we adjust impact of houses on damage in next cell ***
+	= sum w_ij(s_jt-x_jt) where weight w_ij represents the contribution of unit j’s post-treatment fuel stock, (s_jt−x_jt), to fire damage on unit i. The bigger the weight assigned to unit j, the more important that units fuel stock in determining fire damage on unit i.
+*** This may be where we adjust impact of houses on damage in next cell ***
 
-after a fire fuels are:
+After a fire fuels are:
 s_it+1 = G[(s-x)(1-Di)]
 
-
-we want fire to effect fuel stock and houses (i.e. damage to homes?)
+We want fire to effect fuel stock and houses (i.e. damage to homes?)
 house after fire is some variation of hi,t+1 = hit(1−Di)
 
+---------------------------------------------------------------------------------------
 
+Full Fire Damage Equation in Busby et al. 2013 Table 2 (includes costs; picture of equation also on brainstorming doc):
 
+D^k,q = (l1/100 * w^k(Z^j - M^j + Z^k - M^k)) - g^effect
+
+Where:
+k = the state of fuel loading for landowner (parcel) k
+j = adjacent property
+W^k = spatial weights
+Z^k,j = beginning fuel load
+M^k,j = fuel treatment
+g^effect = government suppression effectiveness (I think this is one of the parameters we can exclude from our model..)
+Z^k,j and M^k,j parameters all at time t-1
+
+From Plantinga's email:
+The damage function is telling you the damage to structures, fuels, and amenities (see equations 3a-c) **on parcel k given conditions on the neighboring parcel j**. There are costs associated with fuel treatments (M) and suppression (g). Fuel treatments are a 0-1 variable that enters into the damage function in Table 2. Suppression comes in through the g^{effect} variable.
+
+### Coding
 
 ```{r}
-matrix = matrix(c(0, 1, 1, 0, 0, 1, 1, 1, 0), ncol = 3) # base values 
+matrix = matrix(c(0.5, 1, -1, 0, 0, 1, 0.5, 1, 0), ncol = 3) # Base values 
+matrix
 
-set.seed(2021)
-list <- st_sample(box, size = 9) # select 9 values
+# Just jotting down some useful code below, not sure if we will need all of it - Larissa
 
-if 
+# Random probability numbers
+runif(9, min = 0, max = 1)
 
+# Function of full fire damage equation as is:
+# D^k,q = (l1/100 * w^k(Z^j - M^j + Z^k - M^k)) - g^effect (modifying this)
 
-# pick ten random points from inside box and put them in p
-set.seed(2021)
-list <- st_sample(box, size = 9) # select 9 values
+fire_damage <- function(w, Zj, Zk, Mj, Mk, g) {
+  Dkq <- ((0.95/100) * (w * (Zj - Mj + Zk - Mk))) - g
+  return(Dkq)
+}
 
-# from here an if else statement to determine fire spread (pull from work code)
- 
-# maybe map those using plot? (pull from gis code) 
+# Using the function (values taken from paper)
+x <- fire_damage(0.5, 3, 3, 0.9581816, 0.5456977, 0.10)
+x
+
+# If else statement for the two states
+if(x < 0){
+print("Not burned")
+} else {
+print("Burned")
+}
+
+#^ Something along these lines..
+
 ```
 
+```{r}
+# Pick ten random points from inside box and put them in p
+set.seed(2021)
+p <- st_sample(matrix, size = 9) # select 9 values
+# Error says st_sample cannot be used on a matrix
+
+# If else statement to determine fire spread (pull from work code)
+ 
+# Maybe map those using plot? (pull from gis code) 
+```
 
 
