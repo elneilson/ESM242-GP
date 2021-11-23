@@ -9,6 +9,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(sf) # needed for st_sample() function
+library(data.table)
 ```
 
 ### Define Variables and Compose Equation
@@ -53,29 +54,25 @@ The damage function is telling you the damage to structures, fuels, and amenitie
 
 ```{r}
 # Random probability numbers
-set.seed(2021) #for consistency going forward can set different seed for random numbers for each scenario
+#set.seed(2021) #for consistency going forward can set different seed for random numbers for each scenario
 base_vals <-matrix(runif(9, min = 0, max = 1), ncol = 3)
 
 # make burn matrix
-burn_vals = matrix(c(8, 8, 8, 8, 8, 8, 8, 8, 8), ncol = 3)
+burn_vals = matrix(n = 3, ncol = 3)
 
 ```
 
-#### Fire Model
+#### Fire Model 
+
+Manual version - no homes
 
 ```{r}
-# if a cell's assigned probability is greater than .62, then it burns and is assigned a value of 1 in the burn matrix
-
 # cell 1,1
-if(base_vals[1,1] < .62){
-  burn_vals[1,1] = 0
-} else {
-  burn_vals[1,1] = 1
-}
+burn_vals[1,1] = 1
 
 # cell 1,2
 if(burn_vals[1,1] == 1) {
-  if (base_vals[1,2] < .62){
+  if (base_vals[1,2] > .62){
   burn_vals[1,2] = 0
   } else {
     burn_vals[1,2] = 1}
@@ -85,7 +82,7 @@ if(burn_vals[1,1] == 1) {
 
 # cell 2,1
 if(burn_vals[1,1] == 1) {
-  if (base_vals[2,1] < .62){
+  if (base_vals[2,1] > .62){
   burn_vals[2,1] = 0
   } else {
     burn_vals[2,1] = 1}
@@ -95,7 +92,7 @@ if(burn_vals[1,1] == 1) {
 
 # cell 1,3
 if(burn_vals[1,2] == 1) {
-  if (base_vals[1,3] < .62){
+  if (base_vals[1,3] > .62){
   burn_vals[1,3] = 0
   } else {
     burn_vals[1,3] = 1}
@@ -105,7 +102,7 @@ if(burn_vals[1,2] == 1) {
 
 # cell 3,1
 if(burn_vals[2,1] == 1) {
-  if (base_vals[3,1] < .62){
+  if (base_vals[3,1] > .62){
   burn_vals[3,1] = 0
   } else {
     burn_vals[3,1] = 1}
@@ -115,7 +112,7 @@ if(burn_vals[2,1] == 1) {
 
 # cell 2,2
 if(burn_vals[1,2] == 1 | burn_vals[2,1] == 1) {
-  if (base_vals[2,2] < .62){
+  if (base_vals[2,2] > .62){
   burn_vals[2,2] = 0
   } else {
     burn_vals[2,2] = 1}
@@ -125,7 +122,7 @@ if(burn_vals[1,2] == 1 | burn_vals[2,1] == 1) {
 
 # cell 2,3
 if(burn_vals[1,3] == 1 | burn_vals[2,2] == 1) {
-  if (base_vals[2,3] < .62){
+  if (base_vals[2,3] > .62){
   burn_vals[2,3] = 0
   } else {
     burn_vals[2,3] = 1}
@@ -135,7 +132,7 @@ if(burn_vals[1,3] == 1 | burn_vals[2,2] == 1) {
 
 # cell 3,2
 if(burn_vals[3,1] == 1 | burn_vals[2,2] == 1) {
-  if (base_vals[3,2] < .62){
+  if (base_vals[3,2] > .62){
   burn_vals[3,2] = 0
   } else {
     burn_vals[3,2] = 1}
@@ -145,7 +142,144 @@ if(burn_vals[3,1] == 1 | burn_vals[2,2] == 1) {
 
 # cell 3,3
 if(burn_vals[3,2] == 1 | burn_vals[2,3] == 1) {
-  if (base_vals[3,3] < .62){
+  if (base_vals[3,3] > .62){
+  burn_vals[3,3] = 0
+  } else {
+    burn_vals[3,3] = 1}
+} else {
+  burn_vals[3,3] = 0
+}
+```
+
+```{r}
+# no homes iterations
+burn_1 <- burn_vals
+burn_2 <- burn_vals
+burn_3 <- burn_vals
+burn_4 <- burn_vals
+burn_5 <- burn_vals
+burn_6 <- burn_vals
+burn_7 <- burn_vals
+burn_8 <- burn_vals
+burn_9 <- burn_vals
+burn_10 <- burn_vals
+
+combined <- cbind(burn_1, burn_2, burn_3, burn_4, burn_5, burn_6, burn_7, burn_8, burn_9, burn_10) %>% 
+  as.vector() 
+
+(count <- table(combined))
+
+
+```
+
+```{r}
+# 3 homes iterations
+burn_1_h <- burn_vals
+burn_2_h <- burn_vals
+burn_3_h <- burn_vals
+burn_4_h <- burn_vals
+burn_5_h <- burn_vals
+burn_6_h <- burn_vals
+burn_7_h <- burn_vals
+burn_8_h <- burn_vals
+burn_9_h <- burn_vals
+burn_10_h <- burn_vals
+burn_11_h <- burn_vals
+burn_12_h <- burn_vals
+burn_13_h <- burn_vals
+burn_14_h <- burn_vals
+burn_15_h <- burn_vals
+
+combined_h <- cbind(burn_1_h, burn_2_h, burn_3_h, burn_4_h, burn_5_h, burn_6_h, burn_7_h, burn_8_h, burn_9_h, burn_10_h)
+
+combined_h <- cbind(burn_1_h, burn_2_h, burn_3_h, burn_4_h, burn_5_h, burn_6_h, burn_7_h, burn_8_h, burn_9_h, burn_10_h, burn_11_h, burn_12_h, burn_13_h, burn_14_h, burn_15_h)
+
+(count_h <- table(combined_h))
+
+```
+
+Manual version - 3 homes
+
+```{r}
+base_vals <-matrix(runif(9, min = 0, max = 1), ncol = 3)
+burn_vals = matrix(n = 3, ncol = 3)
+
+# cell 1,1
+burn_vals[1,1] = 1
+
+# cell 1,2
+if(burn_vals[1,1] == 1) {
+  if (base_vals[1,2] > .62){
+  burn_vals[1,2] = 0
+  } else {
+    burn_vals[1,2] = 1}
+} else {
+  burn_vals[1,2] = 0
+}
+
+# cell 2,1
+if(burn_vals[1,1] == 1) {
+  if (base_vals[2,1] > .56){
+  burn_vals[2,1] = 0
+  } else {
+    burn_vals[2,1] = 2}
+} else {
+  burn_vals[2,1] = 0
+}
+
+# cell 1,3
+if(burn_vals[1,2] == 1) {
+  if (base_vals[1,3] > .56){
+  burn_vals[1,3] = 0
+  } else {
+    burn_vals[1,3] = 2}
+} else {
+  burn_vals[1,3] = 0
+}
+
+# cell 3,1
+if(burn_vals[2,1] == 1) {
+  if (base_vals[3,1] > .62){
+  burn_vals[3,1] = 0
+  } else {
+    burn_vals[3,1] = 1}
+} else {
+  burn_vals[3,1] = 0
+}
+
+# cell 2,2
+if(burn_vals[1,2] == 1 | burn_vals[2,1] == 1) {
+  if (base_vals[2,2] > .62){
+  burn_vals[2,2] = 0
+  } else {
+    burn_vals[2,2] = 1}
+} else {
+  burn_vals[2,2] = 0
+}
+
+# cell 2,3
+if(burn_vals[1,3] == 1 | burn_vals[2,2] == 1) {
+  if (base_vals[2,3] > .62){
+  burn_vals[2,3] = 0
+  } else {
+    burn_vals[2,3] = 1}
+} else {
+  burn_vals[2,3] = 0
+}
+
+# cell 3,2
+if(burn_vals[3,1] == 1 | burn_vals[2,2] == 1) {
+  if (base_vals[3,2] > .56){
+  burn_vals[3,2] = 0
+  } else {
+    burn_vals[3,2] = 2}
+} else {
+  burn_vals[3,2] = 0
+}
+
+# cell 3,3
+if(burn_vals[3,2] == 1 | burn_vals[2,3] == 1) {
+  if (base_vals[3,3] > .62){
   burn_vals[3,3] = 0
   } else {
     burn_vals[3,3] = 1}
@@ -154,6 +288,157 @@ if(burn_vals[3,2] == 1 | burn_vals[2,3] == 1) {
 }
 
 ```
+
+
+Function version of 9x9 manual model w/o homes
+
+```{r}
+# if a cell's assigned probability is less than .62, then it burns and is assigned a value of 1 in the burn matrix
+# x = burn_vals & y = base_vals
+
+base_vals <-matrix(runif(9, min = 0, max = 1), ncol = 3)
+burn_vals = matrix(n = 3, ncol = 3)
+burn <- burn_function(burn_vals, base_vals)
+
+burn_function = function(x,y){
+  
+# cell 1,1
+x[1,1] = 1
+
+# cell 1,2
+if(x[1,1] == 1) {
+  if (y[1,2] > .62){
+  x[1,2] = 0
+  } else {
+    x[1,2] = 1}
+} else {
+  x[1,2] = 0
+}
+
+# cell 2,1
+if(x[1,1] == 1) {
+  if (y[2,1] > .62){
+  x[2,1] = 0
+  } else {
+    x[2,1] = 1}
+} else {
+  x[2,1] = 0
+}
+
+# cell 1,3
+if(x[1,2] == 1) {
+  if (y[1,3] > .62){
+  x[1,3] = 0
+  } else {
+    x[1,3] = 1}
+} else {
+  x[1,3] = 0
+}
+
+# cell 3,1
+if(x[2,1] == 1) {
+  if (y[3,1] > .62){
+  x[3,1] = 0
+  } else {
+    x[3,1] = 1}
+} else {
+  x[3,1] = 0
+}
+
+# cell 2,2
+if(x[1,2] == 1 | x[2,1] == 1) {
+  if (y[2,2] > .62){
+  x[2,2] = 0
+  } else {
+    x[2,2] = 1}
+} else {
+  x[2,2] = 0
+}
+
+# cell 2,3
+if(x[1,3] == 1 | x[2,2] == 1) {
+  if (y[2,3] > .62){
+  x[2,3] = 0
+  } else {
+    x[2,3] = 1}
+} else {
+  x[2,3] = 0
+}
+
+# cell 3,2
+if(x[3,1] == 1 | x[2,2] == 1) {
+  if (y[3,2] > .62){
+  x[3,2] = 0
+  } else {
+    x[3,2] = 1}
+} else {
+  x[3,2] = 0
+}
+
+# cell 3,3
+if(x[3,2] == 1 | x[2,3] == 1) {
+  if (y[3,3] > .62){
+  x[3,3] = 0
+  } else {
+    x[3,3] = 1}
+} else {
+  x[3,3] = 0
+}
+    
+  return(x)
+}
+```
+
+```{r}
+# re-coding for larger matrix
+burn_vals = matrix(nrow = 10, ncol = 10)
+base_vals <-matrix(runif(100, min = 0, max = 1), ncol = 10)
+
+# draft for loop 
+for(i in 1:nrow(burn_vals)){
+  for(j in 1:ncol(burn_vals)){
+    burn_function = function(x,y){
+  
+# cell 1,1
+x[1,1] = 1
+
+# # 1st row cells
+# if(x[i,j-1] == 1) {
+#   if (y[i,j] > .62){
+#   x[i,j] = 0
+#   } else {
+#     x[i,j] = 1}
+# } else {
+#   x[i,j] = 0
+# }
+# 
+# # 1st col cells 
+# if(x[i-1,j] == 1) {
+#   if (y[i,j] > .62){
+#   x[i,j] = 0
+#   } else {
+#     x[i,j] = 1}
+# } else {
+#   x[i,j] = 0
+# }
+
+# remaining cells
+if(x[i,j-1] == 1 | x[i-1,j] == 1) {
+  if (y[i,j] > .62){
+  x[i,j] = 0
+  } else {
+    x[i,j] = 1}
+} else {
+  x[i,j] = 0
+}
+    
+  return(x)
+}
+  }
+}
+```
+
+
 
 ```{r}
 # if else structure
