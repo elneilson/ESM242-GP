@@ -290,14 +290,122 @@ if(burn_vals[3,2] == 1 | burn_vals[2,3] == 1) {
 ```
 
 
+```{r}
+# re-coding for larger matrix
+
+# general function w/o homes
+# (x = burn_vals & y = base_vals)
+burn_function = function(x,y){
+  
+x[1,1] = 1 # cell 1,1
+
+# top row
+for(j in 2:ncol(x)){
+  if(x[1,j-1] >= 1) {
+    if (y[1,j] > .62){
+    x[1,j] = 0
+    } else {
+      x[1,j] = 1}
+  } else {
+    x[1,j] = 0}
+}
+
+# 1st column
+for(i in 2:nrow(x)){
+  if(x[i-1,1] >= 1) {
+    if (y[i,1] > .62){
+    x[i,1] = 0
+    } else {
+      x[i,1] = 1}
+  } else {
+    x[i,1] = 0}
+}
+
+# remaining cells
+for(i in 2:nrow(x)){
+  for(j in 2:ncol(x)){
+    if(x[i,j-1] >= 1 | x[i-1,j] >= 1 | x[i-1, j-1] >= 1) {
+      if (y[i,j] > .62){
+      x[i,j] = 0
+      } else {
+        x[i,j] = 1}
+    } else {
+      x[i,j] = 0}
+  }
+}
+    
+  return(x)
+}
+
+#run model
+burn_vals <- matrix(nrow = 10, ncol = 10)
+base_vals <- matrix(runif(100, min = 0, max = 1), ncol = 10)
+burn <- burn_function(burn_vals, base_vals)
+
+```
+
+```{r}
+#function w/ homes
+burn_function = function(x,y,z){
+  
+x[1,1] = 1 # cell 1,1
+
+# top row
+for(j in 2:ncol(x)){
+  if(x[1,j-1] >= 1) {
+    if (y[1,j] > z[i,j]){
+    x[1,j] = 0
+    } else {
+      if(z[i,j] = .62){x[1,j] = 1
+      } else {
+        x[1,j] = 2}
+  } else {
+    x[1,j] = 0}}
+}
+
+# 1st column
+for(i in 2:nrow(x)){
+  if(x[i-1,1] >= 1) {
+    if (y[i,1] > z[i,j]){
+    x[i,1] = 0
+    } else {
+      x[i,1] = 1}
+  } else {
+    x[i,1] = 0}
+}
+
+# remaining cells
+for(i in 2:nrow(x)){
+  for(j in 2:ncol(x)){
+    if(x[i,j-1] >= 1 | x[i-1,j] >= 1 | x[i-1, j-1] >= 1) {
+      if (y[i,j] > z[i,j]){
+      x[i,j] = 0
+      } else {
+        x[i,j] = 1}
+    } else {
+      x[i,j] = 0}
+  }
+}
+    
+  return(x)
+}
+
+#run model
+burn_vals <- matrix(nrow = 10, ncol = 10)
+base_vals <- matrix(runif(100, min = 0, max = 1), ncol = 10)
+thresholds <- matrix(runif(100, min = 0, max = 1), ncol = 3)
+burn <- burn_function(burn_vals, base_vals)
+```
+
+
 Function version of 9x9 manual model w/o homes
 
 ```{r}
 # if a cell's assigned probability is less than .62, then it burns and is assigned a value of 1 in the burn matrix
 # x = burn_vals & y = base_vals
 
-base_vals <-matrix(runif(9, min = 0, max = 1), ncol = 3)
-burn_vals = matrix(n = 3, ncol = 3)
+base_vals <- matrix(runif(9, min = 0, max = 1), ncol = 3)
+burn_vals <- matrix(n = 3, ncol = 3)
 burn <- burn_function(burn_vals, base_vals)
 
 burn_function = function(x,y){
@@ -310,6 +418,7 @@ if(x[1,1] == 1) {
   if (y[1,2] > .62){
   x[1,2] = 0
   } else {
+    # if third matrix of probabilities for home damage is > or < .9/.8/.75 etc. (home hardness thresholds)
     x[1,2] = 1}
 } else {
   x[1,2] = 0
@@ -388,57 +497,6 @@ if(x[3,2] == 1 | x[2,3] == 1) {
   return(x)
 }
 ```
-
-```{r}
-# re-coding for larger matrix
-burn_vals = matrix(nrow = 10, ncol = 10)
-base_vals <-matrix(runif(100, min = 0, max = 1), ncol = 10)
-
-# draft for loop 
-for(i in 1:nrow(burn_vals)){
-  for(j in 1:ncol(burn_vals)){
-    burn_function = function(x,y){
-  
-# cell 1,1
-x[1,1] = 1
-
-# # 1st row cells
-# if(x[i,j-1] == 1) {
-#   if (y[i,j] > .62){
-#   x[i,j] = 0
-#   } else {
-#     x[i,j] = 1}
-# } else {
-#   x[i,j] = 0
-# }
-# 
-# # 1st col cells 
-# if(x[i-1,j] == 1) {
-#   if (y[i,j] > .62){
-#   x[i,j] = 0
-#   } else {
-#     x[i,j] = 1}
-# } else {
-#   x[i,j] = 0
-# }
-
-# remaining cells
-if(x[i,j-1] == 1 | x[i-1,j] == 1) {
-  if (y[i,j] > .62){
-  x[i,j] = 0
-  } else {
-    x[i,j] = 1}
-} else {
-  x[i,j] = 0
-}
-    
-  return(x)
-}
-  }
-}
-```
-
-
 
 ```{r}
 # if else structure
