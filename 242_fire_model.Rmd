@@ -295,7 +295,7 @@ if(burn_vals[3,2] == 1 | burn_vals[2,3] == 1) {
 
 # general function w/o homes
 # (x = burn_vals & y = base_vals)
-burn_function = function(x,y){
+burn_function = function(x,y,z){
   
 x[1,1] = 1 # cell 1,1
 
@@ -308,7 +308,8 @@ for(j in 2:ncol(x)){
       if(z[1,j] == .56){
         if(y[1,j] >.05){
           x[1,j] = 2
-        } else {x[1,j] = 3}
+        } else {
+          x[1,j] = 3}
       } else {
         x[1,j] = 1}}
   } else {
@@ -321,7 +322,13 @@ for(i in 2:nrow(x)){
     if (y[i,1] > .62){
     x[i,1] = 0
     } else {
-      x[i,1] = 1}
+      if(z[i,1] == .56){
+        if(y[i,1] >.05){
+          x[i,1] = 2
+        } else {
+          x[i,1] = 3}
+      } else {
+        x[i,1] = 1}}
   } else {
     x[i,1] = 0}
 }
@@ -333,7 +340,13 @@ for(i in 2:nrow(x)){
       if (y[i,j] > .62){
       x[i,j] = 0
       } else {
-        x[i,j] = 1}
+        if(z[i,j] == .56){
+          if(y[i,j] >.05){
+            x[i,j] = 2
+          } else {
+            x[i,j] = 3}
+      } else {
+        x[i,j] = 1}}
     } else {
       x[i,j] = 0}
   }
@@ -352,14 +365,35 @@ f1 <- function(x, n, m) {
 }
 probs <- c(0.56, 0.62)
 matrix4 <- f1(probs, 10, 10)
-matrix(as.numeric(unlist(matrix4)),nrow = nrow(matrix4))
 
 #run model
-burn_vals <- matrix(nrow = 10, ncol = 10)
-base_vals <- matrix(runif(100, min = 0, max = 1), ncol = 10)
-burn <- burn_function(burn_vals, base_vals)
+# burn_vals <- matrix(nrow = 10, ncol = 10)
+# base_vals <- matrix(runif(100, min = 0, max = 1), ncol = 10)
+# thresholds <- matrix(as.numeric(unlist(matrix4)),nrow = nrow(matrix4))
+# burn <- burn_function(burn_vals, base_vals, thresholds)
 
 ```
+
+```{r}
+# set up 50 iterations
+
+burn_vals <- matrix(nrow = 10, ncol = 10)
+base_vals <- matrix(runif(100, min = 0, max = 1), ncol = 10)
+thresholds <- matrix(as.numeric(unlist(matrix4)),nrow = nrow(matrix4))
+burn_1 <- burn_function(burn_vals, base_vals, thresholds)
+
+burn_vals <- matrix(nrow = 10, ncol = 10)
+base_vals <- matrix(runif(100, min = 0, max = 1), ncol = 10)
+thresholds <- matrix(as.numeric(unlist(matrix4)),nrow = nrow(matrix4))
+burn_2 <- burn_function(burn_vals, base_vals, thresholds)
+
+#sample for end of 50 iterations
+combined_h <- cbind(burn_1_h, burn_2_h, burn_3_h, burn_4_h, burn_5_h, burn_6_h, burn_7_h, burn_8_h, burn_9_h, burn_10_h, burn_11_h, burn_12_h, burn_13_h, burn_14_h, burn_15_h)
+
+(count_h <- table(combined_h))
+
+```
+
 
 ```{r}
 #function w/ homes
@@ -436,7 +470,9 @@ for(i in 1:nrow(x)){
           x[i+1,j+1] = 1}}
       
     } else {
-      x[i+1,j] & x[i,j+1] & x[i+1,j+1] = 0}
+      x[i+1,j] = 0
+      x[i,j+1] = 0 
+      x[i+1,j+1] = 0}
   }
 }
     
@@ -458,7 +494,7 @@ matrix(as.numeric(unlist(matrix4)),nrow = nrow(matrix4))
 #run model
 burn_vals <- matrix(nrow = 11, ncol = 11)
 base_vals <- matrix(runif(100, min = 0, max = 1), ncol = 10)
-thresholds <- matrix(runif(100, min = 0, max = 1), ncol = 3)
+thresholds <- matrix(as.numeric(unlist(matrix4)),nrow = nrow(matrix4))
 burn_1 <- burn_function(burn_vals, base_vals, thresholds)
 
 # run model 50 times, 10x10
