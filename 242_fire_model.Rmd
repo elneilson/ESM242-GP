@@ -189,6 +189,42 @@ burn_12_h <- burn_vals
 burn_13_h <- burn_vals
 burn_14_h <- burn_vals
 burn_15_h <- burn_vals
+burn16 <- burn_vals
+burn17 <- burn_vals
+burn18 <- burn_vals
+burn19 <- burn_vals
+burn20 <- burn_vals
+burn21 <- burn_vals
+burn22 <- burn_vals
+burn23 <- burn_vals
+burn24 <- burn_vals
+burn25 <- burn_vals
+burn26 <- burn_vals
+burn27 <- burn_vals
+burn28 <- burn_vals
+burn29 <- burn_vals
+burn30 <- burn_vals
+burn31 <- burn_vals
+burn32 <- burn_vals
+burn33 <- burn_vals
+burn34 <- burn_vals
+burn35 <- burn_vals
+burn36 <- burn_vals
+burn37 <- burn_vals
+burn38 <- burn_vals
+burn39 <- burn_vals
+burn40 <- burn_vals
+burn41 <- burn_vals
+burn42 <- burn_vals
+burn43 <- burn_vals
+burn44 <- burn_vals
+burn45 <- burn_vals
+burn46 <- burn_vals
+burn47 <- burn_vals
+burn48 <- burn_vals
+burn49 <- burn_vals
+burn50 <- burn_vals
+
 
 combined_h <- cbind(burn_1_h, burn_2_h, burn_3_h, burn_4_h, burn_5_h, burn_6_h, burn_7_h, burn_8_h, burn_9_h, burn_10_h)
 
@@ -306,7 +342,7 @@ for(j in 2:ncol(x)){
     x[1,j] = 0
     } else {
       if(z[1,j] == .56){
-        if(y[1,j] >.05){
+        if(y[1,j] > 0.415){
           x[1,j] = 2
         } else {
           x[1,j] = 3}
@@ -319,11 +355,11 @@ for(j in 2:ncol(x)){
 # 1st column
 for(i in 2:nrow(x)){
   if(x[i-1,1] >= 1) {
-    if (y[i,1] > .62){
+    if (y[i,1] > z[i,1]){
     x[i,1] = 0
     } else {
       if(z[i,1] == .56){
-        if(y[i,1] >.05){
+        if(y[i,1] > 0.415){
           x[i,1] = 2
         } else {
           x[i,1] = 3}
@@ -337,11 +373,11 @@ for(i in 2:nrow(x)){
 for(i in 2:nrow(x)){
   for(j in 2:ncol(x)){
     if(x[i,j-1] >= 1 | x[i-1,j] >= 1 | x[i-1, j-1] >= 1) {
-      if (y[i,j] > .62){
+      if (y[i,j] > z[i,j]){
       x[i,j] = 0
       } else {
         if(z[i,j] == .56){
-          if(y[i,j] >.05){
+          if(y[i,j] > 0.415){
             x[i,j] = 2
           } else {
             x[i,j] = 3}
@@ -355,6 +391,10 @@ for(i in 2:nrow(x)){
   return(x)
 }
 
+
+```
+
+```{r}
 # creating matrix of fire movement thresholds
 f1 <- function(x, n, m) {
     N <- length(x)
@@ -371,8 +411,8 @@ matrix4 <- f1(probs, 10, 10)
 # base_vals <- matrix(runif(100, min = 0, max = 1), ncol = 10)
 # thresholds <- matrix(as.numeric(unlist(matrix4)),nrow = nrow(matrix4))
 # burn <- burn_function(burn_vals, base_vals, thresholds)
-
 ```
+
 
 ```{r}
 # set up 50 iterations
@@ -380,15 +420,255 @@ matrix4 <- f1(probs, 10, 10)
 burn_vals <- matrix(nrow = 10, ncol = 10)
 base_vals <- matrix(runif(100, min = 0, max = 1), ncol = 10)
 thresholds <- matrix(as.numeric(unlist(matrix4)),nrow = nrow(matrix4))
-burn_1 <- burn_function(burn_vals, base_vals, thresholds)
+burn_1_h <- burn_function(burn_vals, base_vals, thresholds)
 
 burn_vals <- matrix(nrow = 10, ncol = 10)
 base_vals <- matrix(runif(100, min = 0, max = 1), ncol = 10)
 thresholds <- matrix(as.numeric(unlist(matrix4)),nrow = nrow(matrix4))
-burn_2 <- burn_function(burn_vals, base_vals, thresholds)
+burn_2_h <- burn_function(burn_vals, base_vals, thresholds)
+
+burn_vals <- matrix(nrow = 10, ncol = 10)
+base_vals <- matrix(runif(100, min = 0, max = 1), ncol = 10)
+thresholds <- matrix(as.numeric(unlist(matrix4)),nrow = nrow(matrix4))
+burn_3_h <- burn_function(burn_vals, base_vals, thresholds)
+
+burn_vals <- matrix(nrow = 10, ncol = 10)
+base_vals <- matrix(runif(100, min = 0, max = 1), ncol = 10)
+thresholds <- matrix(as.numeric(unlist(matrix4)),nrow = nrow(matrix4))
+burn_4_h <- burn_function(burn_vals, base_vals, thresholds)
+
+burn_vals <- matrix(nrow = 10, ncol = 10)
+base_vals <- matrix(runif(100, min = 0, max = 1), ncol = 10)
+thresholds <- matrix(as.numeric(unlist(matrix4)),nrow = nrow(matrix4))
+burn_5_h <- burn_function(burn_vals, base_vals, thresholds)
+
+burn_vals <- matrix(nrow = 10, ncol = 10)
+base_vals <- matrix(runif(100, min = 0, max = 1), ncol = 10)
+thresholds <- matrix(as.numeric(unlist(matrix4)),nrow = nrow(matrix4))
+burn_6_h <- burn_function(burn_vals, base_vals, thresholds)
+
+burn_vals <- matrix(nrow = 10, ncol = 10)
+base_vals <- matrix(runif(100, min = 0, max = 1), ncol = 10)
+thresholds <- matrix(as.numeric(unlist(matrix4)),nrow = nrow(matrix4))
+burn_7_h <- burn_function(burn_vals, base_vals, thresholds)
+
+burn_vals <- matrix(nrow = 10, ncol = 10)
+base_vals <- matrix(runif(100, min = 0, max = 1), ncol = 10)
+thresholds <- matrix(as.numeric(unlist(matrix4)),nrow = nrow(matrix4))
+burn_8_h <- burn_function(burn_vals, base_vals, thresholds)
+
+burn_vals <- matrix(nrow = 10, ncol = 10)
+base_vals <- matrix(runif(100, min = 0, max = 1), ncol = 10)
+thresholds <- matrix(as.numeric(unlist(matrix4)),nrow = nrow(matrix4))
+burn_9_h <- burn_function(burn_vals, base_vals, thresholds)
+
+burn_vals <- matrix(nrow = 10, ncol = 10)
+base_vals <- matrix(runif(100, min = 0, max = 1), ncol = 10)
+thresholds <- matrix(as.numeric(unlist(matrix4)),nrow = nrow(matrix4))
+burn_10_h <- burn_function(burn_vals, base_vals, thresholds)
+
+burn_vals <- matrix(nrow = 10, ncol = 10)
+base_vals <- matrix(runif(100, min = 0, max = 1), ncol = 10)
+thresholds <- matrix(as.numeric(unlist(matrix4)),nrow = nrow(matrix4))
+burn_11_h <- burn_function(burn_vals, base_vals, thresholds)
+
+burn_vals <- matrix(nrow = 10, ncol = 10)
+base_vals <- matrix(runif(100, min = 0, max = 1), ncol = 10)
+thresholds <- matrix(as.numeric(unlist(matrix4)),nrow = nrow(matrix4))
+burn_12_h <- burn_function(burn_vals, base_vals, thresholds)
+
+burn_vals <- matrix(nrow = 10, ncol = 10)
+base_vals <- matrix(runif(100, min = 0, max = 1), ncol = 10)
+thresholds <- matrix(as.numeric(unlist(matrix4)),nrow = nrow(matrix4))
+burn_13_h <- burn_function(burn_vals, base_vals, thresholds)
+
+burn_vals <- matrix(nrow = 10, ncol = 10)
+base_vals <- matrix(runif(100, min = 0, max = 1), ncol = 10)
+thresholds <- matrix(as.numeric(unlist(matrix4)),nrow = nrow(matrix4))
+burn_14_h <- burn_function(burn_vals, base_vals, thresholds)
+
+burn_vals <- matrix(nrow = 10, ncol = 10)
+base_vals <- matrix(runif(100, min = 0, max = 1), ncol = 10)
+thresholds <- matrix(as.numeric(unlist(matrix4)),nrow = nrow(matrix4))
+burn_15_h <- burn_function(burn_vals, base_vals, thresholds)
+
+burn_vals <- matrix(nrow = 10, ncol = 10)
+base_vals <- matrix(runif(100, min = 0, max = 1), ncol = 10)
+thresholds <- matrix(as.numeric(unlist(matrix4)),nrow = nrow(matrix4))
+burn16 <- burn_function(burn_vals, base_vals, thresholds)
+
+burn_vals <- matrix(nrow = 10, ncol = 10)
+base_vals <- matrix(runif(100, min = 0, max = 1), ncol = 10)
+thresholds <- matrix(as.numeric(unlist(matrix4)),nrow = nrow(matrix4))
+burn17 <- burn_function(burn_vals, base_vals, thresholds)
+
+burn_vals <- matrix(nrow = 10, ncol = 10)
+base_vals <- matrix(runif(100, min = 0, max = 1), ncol = 10)
+thresholds <- matrix(as.numeric(unlist(matrix4)),nrow = nrow(matrix4))
+burn18 <- burn_function(burn_vals, base_vals, thresholds)
+
+burn_vals <- matrix(nrow = 10, ncol = 10)
+base_vals <- matrix(runif(100, min = 0, max = 1), ncol = 10)
+thresholds <- matrix(as.numeric(unlist(matrix4)),nrow = nrow(matrix4))
+burn19 <- burn_function(burn_vals, base_vals, thresholds)
+
+burn_vals <- matrix(nrow = 10, ncol = 10)
+base_vals <- matrix(runif(100, min = 0, max = 1), ncol = 10)
+thresholds <- matrix(as.numeric(unlist(matrix4)),nrow = nrow(matrix4))
+burn20 <- burn_function(burn_vals, base_vals, thresholds)
+
+burn_vals <- matrix(nrow = 10, ncol = 10)
+base_vals <- matrix(runif(100, min = 0, max = 1), ncol = 10)
+thresholds <- matrix(as.numeric(unlist(matrix4)),nrow = nrow(matrix4))
+burn21 <- burn_function(burn_vals, base_vals, thresholds)
+
+burn_vals <- matrix(nrow = 10, ncol = 10)
+base_vals <- matrix(runif(100, min = 0, max = 1), ncol = 10)
+thresholds <- matrix(as.numeric(unlist(matrix4)),nrow = nrow(matrix4))
+burn22 <- burn_function(burn_vals, base_vals, thresholds)
+
+burn_vals <- matrix(nrow = 10, ncol = 10)
+base_vals <- matrix(runif(100, min = 0, max = 1), ncol = 10)
+thresholds <- matrix(as.numeric(unlist(matrix4)),nrow = nrow(matrix4))
+burn23 <- burn_function(burn_vals, base_vals, thresholds)
+
+burn_vals <- matrix(nrow = 10, ncol = 10)
+base_vals <- matrix(runif(100, min = 0, max = 1), ncol = 10)
+thresholds <- matrix(as.numeric(unlist(matrix4)),nrow = nrow(matrix4))
+burn24 <- burn_function(burn_vals, base_vals, thresholds)
+
+burn_vals <- matrix(nrow = 10, ncol = 10)
+base_vals <- matrix(runif(100, min = 0, max = 1), ncol = 10)
+thresholds <- matrix(as.numeric(unlist(matrix4)),nrow = nrow(matrix4))
+burn25 <- burn_function(burn_vals, base_vals, thresholds)
+
+burn_vals <- matrix(nrow = 10, ncol = 10)
+base_vals <- matrix(runif(100, min = 0, max = 1), ncol = 10)
+thresholds <- matrix(as.numeric(unlist(matrix4)),nrow = nrow(matrix4))
+burn26 <- burn_function(burn_vals, base_vals, thresholds)
+
+burn_vals <- matrix(nrow = 10, ncol = 10)
+base_vals <- matrix(runif(100, min = 0, max = 1), ncol = 10)
+thresholds <- matrix(as.numeric(unlist(matrix4)),nrow = nrow(matrix4))
+burn27 <- burn_function(burn_vals, base_vals, thresholds)
+
+burn_vals <- matrix(nrow = 10, ncol = 10)
+base_vals <- matrix(runif(100, min = 0, max = 1), ncol = 10)
+thresholds <- matrix(as.numeric(unlist(matrix4)),nrow = nrow(matrix4))
+burn28 <- burn_function(burn_vals, base_vals, thresholds)
+
+burn_vals <- matrix(nrow = 10, ncol = 10)
+base_vals <- matrix(runif(100, min = 0, max = 1), ncol = 10)
+thresholds <- matrix(as.numeric(unlist(matrix4)),nrow = nrow(matrix4))
+burn29 <- burn_function(burn_vals, base_vals, thresholds)
+
+burn_vals <- matrix(nrow = 10, ncol = 10)
+base_vals <- matrix(runif(100, min = 0, max = 1), ncol = 10)
+thresholds <- matrix(as.numeric(unlist(matrix4)),nrow = nrow(matrix4))
+burn30 <- burn_function(burn_vals, base_vals, thresholds)
+
+burn_vals <- matrix(nrow = 10, ncol = 10)
+base_vals <- matrix(runif(100, min = 0, max = 1), ncol = 10)
+thresholds <- matrix(as.numeric(unlist(matrix4)),nrow = nrow(matrix4))
+burn31 <- burn_function(burn_vals, base_vals, thresholds)
+
+burn_vals <- matrix(nrow = 10, ncol = 10)
+base_vals <- matrix(runif(100, min = 0, max = 1), ncol = 10)
+thresholds <- matrix(as.numeric(unlist(matrix4)),nrow = nrow(matrix4))
+burn32 <- burn_function(burn_vals, base_vals, thresholds)
+
+burn_vals <- matrix(nrow = 10, ncol = 10)
+base_vals <- matrix(runif(100, min = 0, max = 1), ncol = 10)
+thresholds <- matrix(as.numeric(unlist(matrix4)),nrow = nrow(matrix4))
+burn33 <- burn_function(burn_vals, base_vals, thresholds)
+
+burn_vals <- matrix(nrow = 10, ncol = 10)
+base_vals <- matrix(runif(100, min = 0, max = 1), ncol = 10)
+thresholds <- matrix(as.numeric(unlist(matrix4)),nrow = nrow(matrix4))
+burn34 <- burn_function(burn_vals, base_vals, thresholds)
+
+burn_vals <- matrix(nrow = 10, ncol = 10)
+base_vals <- matrix(runif(100, min = 0, max = 1), ncol = 10)
+thresholds <- matrix(as.numeric(unlist(matrix4)),nrow = nrow(matrix4))
+burn35 <- burn_function(burn_vals, base_vals, thresholds)
+
+burn_vals <- matrix(nrow = 10, ncol = 10)
+base_vals <- matrix(runif(100, min = 0, max = 1), ncol = 10)
+thresholds <- matrix(as.numeric(unlist(matrix4)),nrow = nrow(matrix4))
+burn36 <- burn_function(burn_vals, base_vals, thresholds)
+
+burn_vals <- matrix(nrow = 10, ncol = 10)
+base_vals <- matrix(runif(100, min = 0, max = 1), ncol = 10)
+thresholds <- matrix(as.numeric(unlist(matrix4)),nrow = nrow(matrix4))
+burn37 <- burn_function(burn_vals, base_vals, thresholds)
+
+burn_vals <- matrix(nrow = 10, ncol = 10)
+base_vals <- matrix(runif(100, min = 0, max = 1), ncol = 10)
+thresholds <- matrix(as.numeric(unlist(matrix4)),nrow = nrow(matrix4))
+burn38 <- burn_function(burn_vals, base_vals, thresholds)
+
+burn_vals <- matrix(nrow = 10, ncol = 10)
+base_vals <- matrix(runif(100, min = 0, max = 1), ncol = 10)
+thresholds <- matrix(as.numeric(unlist(matrix4)),nrow = nrow(matrix4))
+burn39 <- burn_function(burn_vals, base_vals, thresholds)
+
+burn_vals <- matrix(nrow = 10, ncol = 10)
+base_vals <- matrix(runif(100, min = 0, max = 1), ncol = 10)
+thresholds <- matrix(as.numeric(unlist(matrix4)),nrow = nrow(matrix4))
+burn40 <- burn_function(burn_vals, base_vals, thresholds)
+
+burn_vals <- matrix(nrow = 10, ncol = 10)
+base_vals <- matrix(runif(100, min = 0, max = 1), ncol = 10)
+thresholds <- matrix(as.numeric(unlist(matrix4)),nrow = nrow(matrix4))
+burn41 <- burn_function(burn_vals, base_vals, thresholds)
+
+burn_vals <- matrix(nrow = 10, ncol = 10)
+base_vals <- matrix(runif(100, min = 0, max = 1), ncol = 10)
+thresholds <- matrix(as.numeric(unlist(matrix4)),nrow = nrow(matrix4))
+burn42 <- burn_function(burn_vals, base_vals, thresholds)
+
+burn_vals <- matrix(nrow = 10, ncol = 10)
+base_vals <- matrix(runif(100, min = 0, max = 1), ncol = 10)
+thresholds <- matrix(as.numeric(unlist(matrix4)),nrow = nrow(matrix4))
+burn43 <- burn_function(burn_vals, base_vals, thresholds)
+
+burn_vals <- matrix(nrow = 10, ncol = 10)
+base_vals <- matrix(runif(100, min = 0, max = 1), ncol = 10)
+thresholds <- matrix(as.numeric(unlist(matrix4)),nrow = nrow(matrix4))
+burn44 <- burn_function(burn_vals, base_vals, thresholds)
+
+burn_vals <- matrix(nrow = 10, ncol = 10)
+base_vals <- matrix(runif(100, min = 0, max = 1), ncol = 10)
+thresholds <- matrix(as.numeric(unlist(matrix4)),nrow = nrow(matrix4))
+burn45 <- burn_function(burn_vals, base_vals, thresholds)
+
+burn_vals <- matrix(nrow = 10, ncol = 10)
+base_vals <- matrix(runif(100, min = 0, max = 1), ncol = 10)
+thresholds <- matrix(as.numeric(unlist(matrix4)),nrow = nrow(matrix4))
+burn46 <- burn_function(burn_vals, base_vals, thresholds)
+
+burn_vals <- matrix(nrow = 10, ncol = 10)
+base_vals <- matrix(runif(100, min = 0, max = 1), ncol = 10)
+thresholds <- matrix(as.numeric(unlist(matrix4)),nrow = nrow(matrix4))
+burn47 <- burn_function(burn_vals, base_vals, thresholds)
+
+burn_vals <- matrix(nrow = 10, ncol = 10)
+base_vals <- matrix(runif(100, min = 0, max = 1), ncol = 10)
+thresholds <- matrix(as.numeric(unlist(matrix4)),nrow = nrow(matrix4))
+burn48 <- burn_function(burn_vals, base_vals, thresholds)
+
+burn_vals <- matrix(nrow = 10, ncol = 10)
+base_vals <- matrix(runif(100, min = 0, max = 1), ncol = 10)
+thresholds <- matrix(as.numeric(unlist(matrix4)),nrow = nrow(matrix4))
+burn49 <- burn_function(burn_vals, base_vals, thresholds)
+
+burn_vals <- matrix(nrow = 10, ncol = 10)
+base_vals <- matrix(runif(100, min = 0, max = 1), ncol = 10)
+thresholds <- matrix(as.numeric(unlist(matrix4)),nrow = nrow(matrix4))
+burn50 <- burn_function(burn_vals, base_vals, thresholds)
 
 #sample for end of 50 iterations
-combined_h <- cbind(burn_1_h, burn_2_h, burn_3_h, burn_4_h, burn_5_h, burn_6_h, burn_7_h, burn_8_h, burn_9_h, burn_10_h, burn_11_h, burn_12_h, burn_13_h, burn_14_h, burn_15_h)
+combined_h <- cbind(burn_1_h, burn_2_h, burn_3_h, burn_4_h, burn_5_h, burn_6_h, burn_7_h, burn_8_h, burn_9_h, burn_10_h, burn_11_h, burn_12_h, burn_13_h, burn_14_h, burn_15_h, burn16, burn17, burn18, burn19, burn20, burn21, burn22, burn23, burn24, burn25, burn26, burn27, burn28, burn29, burn30, burn31, burn32, burn33, burn34, burn35, burn36, burn37, burn38, burn39, burn40, burn41, burn42, burn43, burn44, burn45, burn46, burn47, burn48, burn49, burn50)
 
 (count_h <- table(combined_h))
 
